@@ -33,10 +33,11 @@ to setup-turtles
       set remaining-immunity 0
       set size 1  ;; easier to see
       get-healthy
-      set shape "circle"
+      set shape "person"
     ]
   ask n-of 10 turtles
     [ get-sick ]
+
 end
 
 to get-sick ;; turtle procedure
@@ -145,13 +146,13 @@ end
 ; See Info tab for full copyright and license.
 @#$#@#$#@
 GRAPHICS-WINDOW
-426
-18
-863
-456
+237
+15
+973
+752
 -1
 -1
-13.0
+22.061
 1
 10
 1
@@ -229,7 +230,7 @@ infectiousness
 infectiousness
 0
 100
-60.0
+100.0
 1
 1
 NIL
@@ -244,7 +245,7 @@ duration
 duration
 1
 99
-20.0
+10.0
 1
 1
 weeks
@@ -259,11 +260,32 @@ chance-recover
 chance-recover
 0
 100
-49.0
+50.0
 1
 1
 %
 HORIZONTAL
+
+PLOT
+987
+17
+1665
+507
+plot1
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"total-population" 1.0 0 -13345367 true "" "plot count turtles"
+"immune" 1.0 0 -16777216 true "" "plot count turtles with [immune?]"
+"sick" 1.0 0 -2674135 true "" "plot count turtles with [sick?]"
+"healthy" 1.0 0 -10899396 true "" "plot count turtles with [not sick? and not immune?]"
 
 @#$#@#$#@
 ## WHAT IS IT?
