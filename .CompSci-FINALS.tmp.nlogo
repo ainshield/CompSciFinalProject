@@ -3,7 +3,7 @@ turtles-own
     remaining-immunity   ;; how many weeks of immunity the turtle has left
     sick-time            ;; how long, in weeks, the turtle has been infectious
     age
-    asymptomatic?
+    asymptomatic
     ]                ;; how many weeks old the turtle is
 
 globals
@@ -43,7 +43,7 @@ to setup-turtles
 end
 
 to be-asymptomatic
-  set asymptomatic? true
+  s
 end
 
 to get-sick ;; turtle procedure
