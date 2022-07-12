@@ -1,148 +1,292 @@
-breed [houses house]
-turtles-own
-  [ sick?                ;; if true, the turtle is infectious
-    remaining-immunity   ;; how many weeks of immunity the turtle has left
-    sick-time            ;; how long, in weeks, the turtle has been infectious
-    age
-    ]                ;; how many weeks old the turtle is
+breed[houses house]
+breed[population person]
 
-globals
-  [ %infected            ;; what % of the population is infectious
-    %immune              ;; what % of the population is immune
-    lifespan             ;; the lifespan of a turtle
-    chance-reproduce     ;; the probability of a turtle generating an offspring each tick
-    carrying-capacity    ;; the number of turtles that can be in the world at one time
-    immunity-duration ]  ;; how many weeks immunity lasts
+population-own[
+  sick?
+  remaining-immunity
+  sick-time
+  age
+]
 
-;; The setup is divided into four procedures
+globals[
+  %infected
+  %immune
+  lifespan
+  chance-reproduce
+  carrying-capacity
+  immunity-duration
+]
+
 to setup
   clear-all
   setup-constants
-  setup-turtles
+  setup-population
+  setup-houses
   update-global-variables
   update-display
   reset-ticks
-  set-default-shape houses "house"
-
-  create-houses 1
-  [
-    setxy 10 10
-
-  ]
-
-  create-houses 1
-  [
-    setxy 10 6
-
-  ]
-  ask n-of 10 turtles
-    [ get-sick ]
+  ask n-of 10 population
+      [get-sick]
 end
 
-;; We create a variable number of turtles of which 10 are infectious,
-;; and distribute them randomly
-to setup-turtles
+to setup-population
 
-  create-turtles number-people-per-house
+ ;;right
+    create-population number-people-per-house
     [
+    setxy 10 10
+    set age random lifespan
+    set sick-time 0
+    set remaining-immunity 0
+    set size 1
+    get-healthy
+    set shape "person"
+    ;;if ticks > 0 and ticks mod 1 = 0 [ ;;every 10 ticks return home
+    ;;   setxy 10 10
+    ;;]
+    ]
 
-      set age random lifespan
-      set sick-time 0
-      set remaining-immunity 0
-      set size 1  ;; easier to see
-      get-healthy
-      set shape "person"
+    create-population number-people-per-house
+    [
+    setxy 10 6
+    set age random lifespan
+    set sick-time 0
+    set remaining-immunity 0
+    set size 1
+    get-healthy
+    set shape "person"
+    ]
+
+    create-population number-people-per-house
+    [
+    setxy 10 2
+    set age random lifespan
+    set sick-time 0
+    set remaining-immunity 0
+    set size 1
+    get-healthy
+    set shape "person"
+    ]
+
+    create-population number-people-per-house
+    [
+    setxy 10 -2
+    set age random lifespan
+    set sick-time 0
+    set remaining-immunity 0
+    set size 1
+    get-healthy
+    set shape "person"
+    ]
+
+    create-population number-people-per-house
+    [
+    setxy 10 -6
+    set age random lifespan
+    set sick-time 0
+    set remaining-immunity 0
+    set size 1
+    get-healthy
+    set shape "person"
+    ]
+;;left
+    create-population number-people-per-house
+    [
+    setxy -10 10
+    set age random lifespan
+    set sick-time 0
+    set remaining-immunity 0
+    set size 1
+    get-healthy
+    set shape "person"
+    ]
+
+    create-population number-people-per-house
+    [
+    setxy -10 6
+    set age random lifespan
+    set sick-time 0
+    set remaining-immunity 0
+    set size 1
+    get-healthy
+    set shape "person"
+    ]
+
+    create-population number-people-per-house
+    [
+    setxy -10 2
+    set age random lifespan
+    set sick-time 0
+    set remaining-immunity 0
+    set size 1
+    get-healthy
+    set shape "person"
+    ]
+
+    create-population number-people-per-house
+    [
+    setxy -10 -2
+    set age random lifespan
+    set sick-time 0
+    set remaining-immunity 0
+    set size 1
+    get-healthy
+    set shape "person"
+    ]
+
+    create-population number-people-per-house
+    [
+    setxy -10 -6
+    set age random lifespan
+    set sick-time 0
+    set remaining-immunity 0
+    set size 1
+    get-healthy
+    set shape "person"
     ]
 
 end
 
-to get-sick ;; turtle procedure
+to setup-houses
+
+ ;;right
+  create-houses 1
+  [
+   setxy 10 10
+   set shape "house"
+   set color yellow
+  ]
+
+  create-houses 1
+  [
+   setxy 10 6
+   set shape "house"
+   set color lime
+  ]
+
+  create-houses 1
+  [
+   setxy 10 2
+   set shape "house"
+   set color orange
+  ]
+
+  create-houses 1
+  [
+   setxy 10 -2
+   set shape "house"
+   set color turquoise
+  ]
+
+  create-houses 1
+  [
+   setxy 10 -6
+   set shape "house"
+   set color pink
+  ]
+
+;;left
+  create-houses 1
+  [
+   setxy -10 10
+   set shape "house"
+   set color magenta
+  ]
+
+  create-houses 1
+  [
+   setxy -10 6
+   set shape "house"
+   set color brown
+  ]
+
+  create-houses 1
+  [
+   setxy -10 2
+   set shape "house"
+   set color blue
+  ]
+
+  create-houses 1
+  [
+   setxy -10 -2
+   set shape "house"
+   set color violet
+  ]
+
+  create-houses 1
+  [
+   setxy -10 -6
+   set shape "house"
+   set color sky
+  ]
+end
+
+
+to get-sick
   set sick? true
   set remaining-immunity 0
 end
 
-to get-healthy ;; turtle procedure
+to get-healthy
   set sick? false
   set remaining-immunity 0
   set sick-time 0
 end
 
-to become-immune ;; turtle procedure
+to become-immune
   set sick? false
   set sick-time 0
   set remaining-immunity immunity-duration
 end
 
-;; This sets up basic constants of the model.
 to setup-constants
-  set lifespan 50 * 52      ;; 50 times 52 weeks = 50 years = 2600 weeks old
-  set carrying-capacity 10
+  set lifespan 50 * 52
+  set carrying-capacity 100
   set chance-reproduce 1
   set immunity-duration 52
 end
 
-to go
-  ask turtles [
-    get-older
-    move
-    if sick? [ recover-or-die ]
-    ifelse sick? [ infect ] [ reproduce ]
-  ]
-  update-global-variables
-  update-display
-  tick
-end
-
 to update-global-variables
-  if count turtles > 0
-    [ set %infected (count turtles with [ sick? ] / count turtles) * 100
-      set %immune (count turtles with [ immune? ] / count turtles) * 100 ]
+  if count population > 0
+    [ set %infected (count population with [ sick? ] / count population) * 100
+      set %immune (count population with [ immune? ] / count population) * 100 ]
 end
 
 to update-display
-  ask turtles
+  ask population
     [
       set color ifelse-value sick? [ red ] [ ifelse-value immune? [ grey ] [ green ] ] ]
 end
 
-;;Turtle counting variables are advanced.
-to get-older ;; turtle procedure
-  ;; Turtles die of old age once their age exceeds the
-  ;; lifespan (set at 50 years in this model).
+to get-older
   set age age + 1
   if age > lifespan [ die ]
   if immune? [ set remaining-immunity remaining-immunity - 1 ]
   if sick? [ set sick-time sick-time + 1 ]
 end
 
-;; Turtles move about at random.
-to move ;; turtle procedure
+to move
   rt random 100
   lt random 100
   fd 1
 end
 
-;; If a turtle is sick, it infects other turtles on the same patch.
-;; Immune turtles don't get sick.
-to infect ;; turtle procedure
-  ask other turtles-here with [ not sick? and not immune? ]
+to infect
+  ask other population-here with [ not sick? and not immune? ]
     [ if random-float 100 < chance-infection
       [ get-sick ] ]
 end
 
-;; Once the turtle has been sick long enough, it
-;; either recovers (and becomes immune) or it dies.
-to recover-or-die ;; turtle procedure
-  if sick-time > duration                        ;; If the turtle has survived past the virus' duration, then
-    [ ifelse random-float 100 < chance-recover   ;; either recover or die
+to recover-or-die
+  if sick-time > duration
+    [ ifelse random-float 100 < chance-recover
       [ become-immune ]
       [ die ] ]
 end
 
-;; If there are less turtles than the carrying-capacity
-;; then turtles can reproduce.
 to reproduce
-  if count turtles < carrying-capacity and random-float 100 < chance-reproduce
+  if count population < carrying-capacity and random-float 100 < chance-reproduce
     [ hatch 1
       [ set age 1
         lt 45 fd 1
@@ -153,22 +297,30 @@ to-report immune?
   report remaining-immunity > 0
 end
 
-to startup
-  setup-constants ;; so that carrying-capacity can be used as upper bound of number-people slider
+to go
+  ask population [
+    get-older
+    move
+    if sick? [ recover-or-die ]
+    ifelse sick? [ infect ] [ reproduce ]
+  ]
+  update-global-variables
+  update-display
+  tick
 end
 
-
-; Copyright 1998 Uri Wilensky.
-; See Info tab for full copyright and license.
+to startup
+  setup-constants
+end
 @#$#@#$#@
 GRAPHICS-WINDOW
-237
-15
-973
-752
+172
+10
+786
+625
 -1
 -1
-22.061
+19.55
 1
 10
 1
@@ -178,10 +330,10 @@ GRAPHICS-WINDOW
 0
 0
 1
--16
-16
--16
-16
+-15
+15
+-15
+15
 0
 0
 1
@@ -189,27 +341,27 @@ ticks
 30.0
 
 BUTTON
-50
-35
-113
-68
-setup
+22
+11
+85
+44
+reset
 setup
 NIL
 1
 T
 OBSERVER
 NIL
-NIL
+R
 NIL
 NIL
 1
 
 BUTTON
-139
-35
-202
-68
+93
+11
+156
+44
 go
 go
 T
@@ -222,42 +374,86 @@ NIL
 NIL
 0
 
-SLIDER
-39
-121
-211
+INPUTBOX
+21
+131
 154
-chance-infection
-chance-infection
+191
+duration
+50.0
+1
+0
+Number
+
+INPUTBOX
+20
+198
+161
+258
+number-people-per-house
+5.0
+1
+0
+Number
+
+SLIDER
+20
+91
+156
+124
+chance-recover
+chance-recover
 0
 100
-51.0
+50.0
 1
 1
 NIL
 HORIZONTAL
 
+INPUTBOX
+20
+266
+156
+326
+number-infected
+30.0
+1
+0
+Number
+
 SLIDER
-41
-220
-213
-253
-chance-recover
-chance-recover
+21
+52
+155
+85
+chance-infection
+chance-infection
 0
 100
-54.0
+50.0
 1
 1
 %
 HORIZONTAL
 
-PLOT
-987
+MONITOR
+19
+334
+124
+379
+population count
+count population
 17
-1665
-507
-plot1
+1
+11
+
+PLOT
+796
+10
+1318
+319
+graph
 NIL
 NIL
 0.0
@@ -268,32 +464,69 @@ true
 false
 "" ""
 PENS
-"total-population" 1.0 0 -13345367 true "" "plot count turtles"
-"immune" 1.0 0 -16777216 true "" "plot count turtles with [immune?]"
-"sick" 1.0 0 -2674135 true "" "plot count turtles with [sick?]"
-"healthy" 1.0 0 -10899396 true "" "plot count turtles with [not sick? and not immune?]"
+"sick" 1.0 0 -2674135 true "" "plot count population with [sick?]"
+"total-population" 1.0 0 -11221820 true "" "plot count population"
+"healthy" 1.0 0 -10899396 true "" "plot count population with [not sick? and not immune?]"
+"immune" 1.0 0 -16777216 true "" "plot count population with [immune?]"
 
-INPUTBOX
-38
-270
-137
-330
-number-people-per-house
-50.0
+TEXTBOX
+1325
+11
+1504
+136
+legend\n- yellow = total population\n- green = susceptible\n- red = infected\n- black = immune
+15
+0.0
 1
-0
-Number
 
-INPUTBOX
-40
-158
-195
-218
-duration
-50.0
+TEXTBOX
+20
+388
+160
+426
+population is capped at 100
+12
+0.0
 1
+
+PLOT
+795
+328
+1320
+627
+infection rate
+NIL
+NIL
+0.0
+1.0
+0.0
+1.0
+true
+false
+"" ""
+PENS
+"infection-rate" 1.0 0 -16777216 true "" "plot (count population with [sick?])/(count population)"
+
+MONITOR
+796
+634
+909
+679
+infection-rate (%)
+(count population with [sick?])/(count population)*(100)
 0
-Number
+1
+11
+
+TEXTBOX
+16
+432
+166
+470
+Press R to reset\nPress SPACE to run
+15
+0.0
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
