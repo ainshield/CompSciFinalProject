@@ -6,6 +6,7 @@ population-own[
   remaining-immunity
   sick-time
   age
+  family
 ]
 
 globals[
@@ -25,8 +26,33 @@ to setup
   update-global-variables
   update-display
   reset-ticks
+
   ask n-of 10 population
-      [get-sick]
+  [get-sick]
+
+
+
+end
+
+to set-family
+
+ifelse count population with [family = ""] = 1[
+ ifelse count population with [family = "A"] >= number-people-per-house [] [ask n-of 1 population with [ family = "" ] [ set family "A" ]]
+ ifelse count population with [family = "B"] >= number-people-per-house [] [ask n-of 1 population with [ family = "" ] [ set family "B" ]]
+ ifelse count population with [family = "C"] >= number-people-per-house [] [ask n-of 1 population with [ family = "" ] [ set family "C" ]]
+ ifelse count population with [family = "D"] >= number-people-per-house [] [ask n-of 1 population with [ family = "" ] [ set family "D" ]]
+ ifelse count population with [family = "E"] >= number-people-per-house [] [ask n-of 1 population with [ family = "" ] [ set family "E" ]]
+ ifelse count population with [family = "F"] >= number-people-per-house [] [ask n-of 1 population with [ family = "" ] [ set family "F" ]]
+ ifelse count population with [family = "G"] >= number-people-per-house [] [ask n-of 1 population with [ family = "" ] [ set family "H" ]]
+ ifelse count population with [family = "I"] >= number-people-per-house [] [ask n-of 1 population with [ family = "" ] [ set family "I" ]]
+ ifelse count population with [family = "J"] >= number-people-per-house [] [ask n-of 1 population with [ family = "" ] [ set family "J" ]]
+][]
+
+
+
+
+
+
 end
 
 to setup-population
@@ -34,115 +60,122 @@ to setup-population
  ;;right
     create-population number-people-per-house
     [
-    setxy 10 10
+    setxy 5 10
     set age random lifespan
     set sick-time 0
     set remaining-immunity 0
     set size 1
     get-healthy
     set shape "person"
-    ;;if ticks > 0 and ticks mod 1 = 0 [ ;;every 10 ticks return home
-    ;;   setxy 10 10
-    ;;]
+    set family "A"
     ]
 
     create-population number-people-per-house
     [
-    setxy 10 6
+    setxy 5 6
     set age random lifespan
     set sick-time 0
     set remaining-immunity 0
     set size 1
     get-healthy
     set shape "person"
+    set family "B"
     ]
 
     create-population number-people-per-house
     [
-    setxy 10 2
+    setxy 5 2
     set age random lifespan
     set sick-time 0
     set remaining-immunity 0
     set size 1
     get-healthy
     set shape "person"
+    set family "C"
     ]
 
     create-population number-people-per-house
     [
-    setxy 10 -2
+    setxy 5 -2
     set age random lifespan
     set sick-time 0
     set remaining-immunity 0
     set size 1
     get-healthy
     set shape "person"
+    set family "D"
     ]
 
     create-population number-people-per-house
     [
-    setxy 10 -6
+    setxy 5 -6
     set age random lifespan
     set sick-time 0
     set remaining-immunity 0
     set size 1
     get-healthy
     set shape "person"
+    set family "E"
     ]
 ;;left
     create-population number-people-per-house
     [
-    setxy -10 10
+    setxy -5 10
     set age random lifespan
     set sick-time 0
     set remaining-immunity 0
     set size 1
     get-healthy
     set shape "person"
+    set family "F"
     ]
 
     create-population number-people-per-house
     [
-    setxy -10 6
+    setxy -5 6
     set age random lifespan
     set sick-time 0
     set remaining-immunity 0
     set size 1
     get-healthy
     set shape "person"
+    set family "G"
     ]
 
     create-population number-people-per-house
     [
-    setxy -10 2
+    setxy -5 2
     set age random lifespan
     set sick-time 0
     set remaining-immunity 0
     set size 1
     get-healthy
     set shape "person"
+    set family "H"
     ]
 
     create-population number-people-per-house
     [
-    setxy -10 -2
+    setxy -5 -2
     set age random lifespan
     set sick-time 0
     set remaining-immunity 0
     set size 1
     get-healthy
     set shape "person"
+    set family "I"
     ]
 
     create-population number-people-per-house
     [
-    setxy -10 -6
+    setxy -5 -6
     set age random lifespan
     set sick-time 0
     set remaining-immunity 0
     set size 1
     get-healthy
     set shape "person"
+    set family "J"
     ]
 
 end
@@ -152,35 +185,35 @@ to setup-houses
  ;;right
   create-houses 1
   [
-   setxy 10 10
+   setxy 5 10
    set shape "house"
    set color yellow
   ]
 
   create-houses 1
   [
-   setxy 10 6
+   setxy 5 6
    set shape "house"
    set color lime
   ]
 
   create-houses 1
   [
-   setxy 10 2
+   setxy 5 2
    set shape "house"
    set color orange
   ]
 
   create-houses 1
   [
-   setxy 10 -2
+   setxy 5 -2
    set shape "house"
    set color turquoise
   ]
 
   create-houses 1
   [
-   setxy 10 -6
+   setxy 5 -6
    set shape "house"
    set color pink
   ]
@@ -188,35 +221,35 @@ to setup-houses
 ;;left
   create-houses 1
   [
-   setxy -10 10
+   setxy -5 10
    set shape "house"
    set color magenta
   ]
 
   create-houses 1
   [
-   setxy -10 6
+   setxy -5 6
    set shape "house"
    set color brown
   ]
 
   create-houses 1
   [
-   setxy -10 2
+   setxy -5 2
    set shape "house"
    set color blue
   ]
 
   create-houses 1
   [
-   setxy -10 -2
+   setxy -5 -2
    set shape "house"
    set color violet
   ]
 
   create-houses 1
   [
-   setxy -10 -6
+   setxy -5 -6
    set shape "house"
    set color sky
   ]
@@ -242,9 +275,10 @@ end
 
 to setup-constants
   set lifespan 50 * 52
-  set carrying-capacity 100
+  set carrying-capacity (number-people-per-house * 10)
   set chance-reproduce 1
   set immunity-duration 52
+
 end
 
 to update-global-variables
@@ -293,16 +327,38 @@ to reproduce
         get-healthy ] ]
 end
 
+to go-home
+
+      if family = "A" [ setxy 5 10 ]
+      if family = "B" [ setxy 5 6 ]
+      if family = "C" [ setxy 5 2 ]
+      if family = "D" [ setxy 5 -2 ]
+      if family = "E" [ setxy 5 -6 ]
+      if family = "F" [ setxy -5 10 ]
+      if family = "G" [ setxy -5 6 ]
+      if family = "H" [ setxy -5 2 ]
+      if family = "I" [ setxy -5 -2 ]
+      if family = "J" [ setxy -5 -6 ]
+end
+
+
+
 to-report immune?
   report remaining-immunity > 0
 end
 
 to go
+
   ask population [
     get-older
-    move
+
+    ifelse ticks > 0 and ticks mod 10 = 0 [ ;;every 10 ticks return home
+    go-home][move]
+
+
     if sick? [ recover-or-die ]
     ifelse sick? [ infect ] [ reproduce ]
+    set-family
   ]
   update-global-variables
   update-display
@@ -391,7 +447,7 @@ INPUTBOX
 161
 258
 number-people-per-house
-5.0
+10.0
 1
 0
 Number
@@ -431,7 +487,7 @@ chance-infection
 chance-infection
 0
 100
-50.0
+49.0
 1
 1
 %
@@ -527,6 +583,127 @@ Press R to reset\nPress SPACE to run
 15
 0.0
 1
+
+MONITOR
+14
+634
+71
+679
+A
+count population with [family = \"A\"]
+17
+1
+11
+
+MONITOR
+84
+634
+141
+679
+B
+count population with [family = \"B\"]
+17
+1
+11
+
+MONITOR
+154
+634
+204
+679
+C
+count population with [family = \"C\"]
+17
+1
+11
+
+MONITOR
+215
+635
+272
+680
+D
+count population with [family = \"D\"]
+17
+1
+11
+
+MONITOR
+282
+635
+339
+680
+E
+count population with [family = \"E\"]
+17
+1
+11
+
+MONITOR
+353
+635
+410
+680
+F
+count population with [family = \"F\"]
+17
+1
+11
+
+MONITOR
+420
+636
+477
+681
+G
+count population with [family = \"G\"]
+17
+1
+11
+
+MONITOR
+486
+637
+549
+682
+H
+count population with [family = \"H\"]
+17
+1
+11
+
+MONITOR
+559
+638
+616
+683
+I
+count population with [family = \"I\"]
+17
+1
+11
+
+MONITOR
+627
+637
+684
+682
+J
+count population with [family = \"J\"]
+17
+1
+11
+
+MONITOR
+18
+481
+74
+526
+weeks
+ticks
+17
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?
